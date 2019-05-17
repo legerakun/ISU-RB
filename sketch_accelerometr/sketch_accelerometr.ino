@@ -3,6 +3,7 @@
 
 #define TO_DEG 57.29577951308232087679815481410517033f
 #define T_OUT 20
+#define LED_PIN_01 13
 
 MPU6050 accel;
 
@@ -20,6 +21,7 @@ float clamp(float v, float minv, float maxv){ // Пределы
 void setup() {
     Serial.begin(9600);
     accel.initialize(); // первичная настройка датчика
+    pinMode (LED_PIN_01, OUTPUT);
 }
 
 void loop() {
@@ -45,6 +47,24 @@ void loop() {
         } else {
             angle_ax = TO_DEG*acos(-ay) - 90;
         }
+
+        if(angle_ax>45){
+          digitalWrite (LED_PIN_01, HIGH); // включить светодиод
+        }else{  
+          digitalWrite (LED_PIN_01, LOW); // выключить светодиод
+        }
+
+        if(angle_ay>45){
+          digitalWrite (LED_PIN_01, HIGH); // включить светодиод
+        }else{  
+          digitalWrite (LED_PIN_01, LOW); // выключить светодиод
+        } 
+
+        if(angle_az>45){
+          digitalWrite (LED_PIN_01, HIGH); // включить светодиод
+        }else{  
+          digitalWrite (LED_PIN_01, LOW); // выключить светодиод
+        }        
  
         Serial.println(angle_ax); // вывод в порт угла поворота вокруг оси X
     }
