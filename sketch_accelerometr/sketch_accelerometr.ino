@@ -1,11 +1,14 @@
 #include "I2Cdev.h"
 #include "MPU6050.h"
+#include <Servo.h>
 
 #define TO_DEG 57.29577951308232087679815481410517033f
 #define T_OUT 20
 #define LED_PIN_01 13
 
 MPU6050 accel;
+Servo servo1;
+Servo servo2;
 
 float angle_ax,angle_ay, angle_az;
 long int t_next;
@@ -22,6 +25,8 @@ void setup() {
     Serial.begin(9600);
     accel.initialize(); // первичная настройка датчика
     pinMode (LED_PIN_01, OUTPUT);
+    servo1.attach(10);
+    servo2.attach(9);
 }
 
 void loop() {
@@ -67,11 +72,23 @@ void loop() {
  
         Serial.println(angle_ax); // вывод в порт угла поворота вокруг оси X
         
-          if(angle_ax>= -45 && angle_ax<=45){
+         /* if(angle_ax>= -45 && angle_ax<=45){
             digitalWrite (LED_PIN_01, LOW); // выключить светодиод
           }else{
             digitalWrite (LED_PIN_01, HIGH); // выключить светодиод
-          }
-       
+          }*/
+
+          //for(i = 1; i > 0; i++){
+            servo1.write(angle_ax);
+            delay(10);
+            servo2.write(angle_ay);
+            delay(10);
+            /*if(i == 180){
+              for(i = 180; i <= 180; i--){
+                servo.write(i);
+                delay(10);
+              }  
+            }  
+          }*/   
     }
 }
